@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Almubarak Digital Hub — Airtime, Data & Bills, Instantly</title>
+<meta name="description" content="Buy airtime, data, pay electricity and cable TV bills, and get exam PINs in seconds with Almubarak Digital Hub." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#10152B"/>
+        <path d="M12 27L20 11L28 27" stroke="#F5A623" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 21H24" stroke="#F5A623" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Almubarak Digital Hub
+    </a>
+    <nav>
+      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Create account</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div>
+      <h1>Top up, pay bills, and keep moving.</h1>
+      <p class="lede">One wallet for airtime, data, electricity, cable TV and exam PINs — funded once, spent in seconds, day or night.</p>
+      <div class="hero-ctas">
+        <a href="register.html" class="btn btn-accent">Create free account</a>
+        <a href="login.html" class="btn btn-ghost">I already have an account</a>
+      </div>
+    </div>
+    <div class="phone-mock">
+      <div class="phone-screen">
+        <div class="mock-wallet">
+          <div class="label">Wallet balance</div>
+          <div class="amount">₦24,500.00</div>
+        </div>
+        <div class="mock-grid">
+          <div class="mock-tile"><div class="dot"></div>Airtime</div>
+          <div class="mock-tile"><div class="dot"></div>Data</div>
+          <div class="mock-tile"><div class="dot"></div>Power</div>
+          <div class="mock-tile"><div class="dot"></div>TV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container section-eyebrow-free">
+    <h2>Everything you top up, in one place</h2>
+    <div class="services-strip">
+      <div class="service-pill"><span class="dot"></span>Airtime — MTN, Airtel, Glo, 9mobile</div>
+      <div class="service-pill"><span class="dot"></span>Data bundles</div>
+      <div class="service-pill"><span class="dot"></span>Electricity — prepaid &amp; postpaid</div>
+      <div class="service-pill"><span class="dot"></span>Cable TV — DStv, GOtv, Startimes</div>
+      <div class="service-pill"><span class="dot"></span>WAEC, NECO &amp; JAMB PINs</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div>
+        <div class="step-num">01</div>
+        <h3>Fund your wallet</h3>
+        <p>Add money once with your card or bank transfer, and spend it across every service.</p>
+      </div>
+      <div>
+        <div class="step-num">02</div>
+        <h3>Pick what you need</h3>
+        <p>Airtime, data, electricity, cable or an exam PIN — choose it from your dashboard.</p>
+      </div>
+      <div>
+        <div class="step-num">03</div>
+        <h3>It lands instantly</h3>
+        <p>Most purchases complete in seconds, with a receipt saved to your history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year"></span> Almubarak Digital Hub. All rights reserved.</span>
+    <span>Built for fast, reliable bill payments.</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

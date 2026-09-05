@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Almubarak Digital Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#F5A623"/>
+        <path d="M12 27L20 11L28 27" stroke="#10152B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 21H24" stroke="#10152B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Almubarak
+    </a>
+    <button class="nav-item active" data-view="overview">Overview</button>
+    <button class="nav-item" data-view="users">Users</button>
+    <button class="nav-item" data-view="transactions">Transactions</button>
+    <button class="nav-item" data-view="pricing">Pricing</button>
+    <div class="sidebar-footer">
+      <a class="nav-item" href="dashboard.html">Back to app</a>
+      <button class="nav-item" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <strong>Admin panel</strong>
+    </div>
+
+    <div class="view-body">
+
+      <section class="view active" id="view-overview">
+        <h2>Overview</h2>
+        <div class="stat-grid">
+          <div class="card stat-card"><div class="stat-label">Total users</div><div class="stat-value" id="stat-users">—</div></div>
+          <div class="card stat-card"><div class="stat-label">Total transactions</div><div class="stat-value" id="stat-tx">—</div></div>
+          <div class="card stat-card"><div class="stat-label">Total revenue</div><div class="stat-value" id="stat-revenue">—</div></div>
+          <div class="card stat-card"><div class="stat-label">Wallet float outstanding</div><div class="stat-value" id="stat-float">—</div></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-users">
+        <h2>Users</h2>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <table class="tx-table" id="users-table">
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Wallet</th><th>Adjust</th></tr></thead>
+            <tbody id="users-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="view-transactions">
+        <h2>All transactions</h2>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <table class="tx-table" id="admin-tx-table">
+            <thead><tr><th>Description</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="admin-tx-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="view-pricing">
+        <h2>Pricing & markup</h2>
+        <form class="card form-card" id="pricing-form">
+          <div class="field">
+            <label for="markup-data">Data markup (%)</label>
+            <input id="markup-data" type="number" step="0.1" min="0" />
+          </div>
+          <div class="field">
+            <label for="markup-electricity">Electricity markup (%)</label>
+            <input id="markup-electricity" type="number" step="0.1" min="0" />
+          </div>
+          <div class="field">
+            <label for="markup-cable">Cable markup (%)</label>
+            <input id="markup-cable" type="number" step="0.1" min="0" />
+          </div>
+          <div class="field">
+            <label for="exam-fee">Exam PIN flat fee (₦)</label>
+            <input id="exam-fee" type="number" step="1" min="0" />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Save pricing</button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

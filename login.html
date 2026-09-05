@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log in — Almubarak Digital Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="auth-shell">
+  <div class="auth-visual">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#F5A623"/>
+        <path d="M12 27L20 11L28 27" stroke="#10152B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 21H24" stroke="#10152B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Almubarak Digital Hub
+    </a>
+    <div class="quote">"Welcome back. Your wallet's right where you left it."</div>
+    <div></div>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <h2>Log in</h2>
+      <p>Access your wallet and keep topping up.</p>
+      <form id="login-form">
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" required placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required placeholder="Your password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="submit-btn">Log in</button>
+      </form>
+      <div class="switch-link">New here? <a href="register.html"><strong>Create an account</strong></a></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script>
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+    try {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const data = await Api.post('/auth/login', { email, password });
+      Api.setSession(data.token, data.user);
+      location.href = 'dashboard.html';
+    } catch (err) {
+      toast(err.message, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Log in';
+    }
+  });
+</script>
+</body>
+</html>

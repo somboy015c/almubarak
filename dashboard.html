@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — Almubarak Digital Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#F5A623"/>
+        <path d="M12 27L20 11L28 27" stroke="#10152B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 21H24" stroke="#10152B" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Almubarak
+    </a>
+    <button class="nav-item active" data-view="home">Dashboard</button>
+    <button class="nav-item" data-view="airtime">Airtime</button>
+    <button class="nav-item" data-view="data">Data</button>
+    <button class="nav-item" data-view="electricity">Electricity</button>
+    <button class="nav-item" data-view="cable">Cable TV</button>
+    <button class="nav-item" data-view="exam">Exam PINs</button>
+    <button class="nav-item" data-view="transactions">Transactions</button>
+    <button class="nav-item" data-view="fund">Fund wallet</button>
+    <div class="sidebar-footer">
+      <a class="nav-item" href="admin.html" id="admin-link" style="display:none;">Admin panel</a>
+      <button class="nav-item" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div>
+        <strong id="greeting">Welcome</strong>
+      </div>
+      <div class="wallet-pill">
+        <div><div class="label">Wallet</div><span id="wallet-amount">₦0.00</span></div>
+      </div>
+    </div>
+
+    <div class="view-body">
+
+      <!-- HOME -->
+      <section class="view active" id="view-home">
+        <h2>Quick actions</h2>
+        <div class="grid-tiles">
+          <button class="tile-btn" data-view="airtime"><div class="tile-icon"></div><div class="tile-title">Airtime</div><div class="tile-sub">All networks</div></button>
+          <button class="tile-btn" data-view="data"><div class="tile-icon"></div><div class="tile-title">Data</div><div class="tile-sub">Daily to monthly</div></button>
+          <button class="tile-btn" data-view="electricity"><div class="tile-icon"></div><div class="tile-title">Electricity</div><div class="tile-sub">Prepaid & postpaid</div></button>
+          <button class="tile-btn" data-view="cable"><div class="tile-icon"></div><div class="tile-title">Cable TV</div><div class="tile-sub">DStv, GOtv, Startimes</div></button>
+          <button class="tile-btn" data-view="exam"><div class="tile-icon"></div><div class="tile-title">Exam PINs</div><div class="tile-sub">WAEC, NECO, JAMB</div></button>
+          <button class="tile-btn" data-view="fund"><div class="tile-icon"></div><div class="tile-title">Fund wallet</div><div class="tile-sub">Card or transfer</div></button>
+        </div>
+        <h2>Recent transactions</h2>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <table class="tx-table" id="home-tx-table">
+            <thead><tr><th>Description</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="home-tx-body"></tbody>
+          </table>
+          <div class="empty-state" id="home-tx-empty" style="display:none;">No transactions yet. Your purchases will show up here.</div>
+        </div>
+      </section>
+
+      <!-- AIRTIME -->
+      <section class="view" id="view-airtime">
+        <h2>Buy airtime</h2>
+        <form class="card form-card" id="airtime-form">
+          <div class="field">
+            <label for="airtime-network">Network</label>
+            <select id="airtime-network" required>
+              <option value="">Select network</option>
+              <option value="mtn">MTN</option>
+              <option value="airtel">Airtel</option>
+              <option value="glo">Glo</option>
+              <option value="9mobile">9mobile</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="airtime-phone">Phone number</label>
+            <input id="airtime-phone" type="tel" required placeholder="080..." />
+          </div>
+          <div class="field">
+            <label for="airtime-amount">Amount (₦)</label>
+            <input id="airtime-amount" type="number" min="50" required placeholder="e.g. 500" />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Buy airtime</button>
+        </form>
+      </section>
+
+      <!-- DATA -->
+      <section class="view" id="view-data">
+        <h2>Buy data</h2>
+        <form class="card form-card" id="data-form">
+          <div class="field">
+            <label for="data-network">Network</label>
+            <select id="data-network" required>
+              <option value="">Select network</option>
+              <option value="mtn">MTN</option>
+              <option value="airtel">Airtel</option>
+              <option value="glo">Glo</option>
+              <option value="9mobile">9mobile</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="data-plan">Data plan</label>
+            <select id="data-plan" required disabled><option value="">Select a network first</option></select>
+          </div>
+          <div class="field">
+            <label for="data-phone">Phone number</label>
+            <input id="data-phone" type="tel" required placeholder="080..." />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Buy data</button>
+        </form>
+      </section>
+
+      <!-- ELECTRICITY -->
+      <section class="view" id="view-electricity">
+        <h2>Pay electricity bill</h2>
+        <form class="card form-card" id="electricity-form">
+          <div class="field">
+            <label for="elec-disco">Distribution company</label>
+            <select id="elec-disco" required>
+              <option value="">Select disco</option>
+              <option value="ikeja-electric">Ikeja Electric</option>
+              <option value="eko-electric">Eko Electric</option>
+              <option value="abuja-electric">Abuja Electric</option>
+              <option value="kano-electric">Kano Electric</option>
+              <option value="portharcourt-electric">Port Harcourt Electric</option>
+            </select>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="elec-meter-type">Meter type</label>
+              <select id="elec-meter-type" required>
+                <option value="prepaid">Prepaid</option>
+                <option value="postpaid">Postpaid</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="elec-meter">Meter number</label>
+              <input id="elec-meter" type="text" required placeholder="e.g. 04512345678" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="elec-phone">Phone number</label>
+            <input id="elec-phone" type="tel" required placeholder="080..." />
+          </div>
+          <div class="field">
+            <label for="elec-amount">Amount (₦)</label>
+            <input id="elec-amount" type="number" min="500" required placeholder="e.g. 5000" />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Pay bill</button>
+        </form>
+      </section>
+
+      <!-- CABLE -->
+      <section class="view" id="view-cable">
+        <h2>Cable TV subscription</h2>
+        <form class="card form-card" id="cable-form">
+          <div class="field">
+            <label for="cable-provider">Provider</label>
+            <select id="cable-provider" required>
+              <option value="">Select provider</option>
+              <option value="dstv">DStv</option>
+              <option value="gotv">GOtv</option>
+              <option value="startimes">Startimes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cable-plan">Bouquet</label>
+            <select id="cable-plan" required disabled><option value="">Select a provider first</option></select>
+          </div>
+          <div class="field">
+            <label for="cable-card">Smartcard / IUC number</label>
+            <input id="cable-card" type="text" required placeholder="e.g. 1234567890" />
+          </div>
+          <div class="field">
+            <label for="cable-phone">Phone number</label>
+            <input id="cable-phone" type="tel" required placeholder="080..." />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Subscribe</button>
+        </form>
+      </section>
+
+      <!-- EXAM -->
+      <section class="view" id="view-exam">
+        <h2>Exam PINs</h2>
+        <form class="card form-card" id="exam-form">
+          <div class="field">
+            <label for="exam-plan">PIN type</label>
+            <select id="exam-plan" required><option value="">Loading...</option></select>
+          </div>
+          <div class="field">
+            <label for="exam-quantity">Quantity</label>
+            <input id="exam-quantity" type="number" min="1" value="1" required />
+          </div>
+          <div class="field">
+            <label for="exam-phone">Phone number</label>
+            <input id="exam-phone" type="tel" required placeholder="080..." />
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Buy PIN</button>
+        </form>
+      </section>
+
+      <!-- TRANSACTIONS -->
+      <section class="view" id="view-transactions">
+        <h2>All transactions</h2>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <table class="tx-table" id="full-tx-table">
+            <thead><tr><th>Description</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="full-tx-body"></tbody>
+          </table>
+          <div class="empty-state" id="full-tx-empty" style="display:none;">No transactions yet.</div>
+        </div>
+      </section>
+
+      <!-- FUND WALLET -->
+      <section class="view" id="view-fund">
+        <h2>Fund your wallet</h2>
+        <form class="card form-card" id="fund-form">
+          <div class="field">
+            <label for="fund-amount">Amount (₦)</label>
+            <input id="fund-amount" type="number" min="100" required placeholder="e.g. 5000" />
+          </div>
+          <p class="field-hint" id="fund-hint">Payments are processed securely via Paystack.</p>
+          <button class="btn btn-accent btn-block" type="submit">Fund wallet</button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
