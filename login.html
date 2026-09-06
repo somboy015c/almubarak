@@ -15,19 +15,15 @@
 <script>
   if (Api.isLoggedIn()) { location.href = 'dashboard.html'; }
 </script>
-<div class="auth-topbar">
-  <a href="index.html" class="brand">
-    <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
-    Almubarak Digital Hub
-  </a>
-  <a href="index.html" class="btn btn-ghost btn-sm">
-    <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
-    Home
-  </a>
-</div>
+<a href="index.html" class="home-float-btn" aria-label="Back to home">
+  <svg class="icon" viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+</a>
 <div class="auth-shell">
   <div class="auth-visual" style="--auth-bg-image: url('https://images.pexels.com/photos/1144228/pexels-photo-1144228.jpeg?auto=compress&cs=tinysrgb&w=1200');">
-    <div></div>
+    <a href="index.html" class="brand">
+      <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
+      <span class="brand-text">Almubarak Digital Hub</span>
+    </a>
     <div class="quote">"Welcome back. Your wallet's right where you left it."</div>
     <div></div>
   </div>
