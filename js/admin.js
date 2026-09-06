@@ -16,10 +16,28 @@
     document.querySelectorAll('.nav-item[data-view]').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.view === name);
     });
+    closeSidebar();
   }
   document.querySelectorAll('[data-view]').forEach((el) => {
     el.addEventListener('click', () => showView(el.dataset.view));
   });
+
+  // ---- Mobile off-canvas drawer ----
+  const sidebar = document.getElementById('sidebar');
+  const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarBackdrop.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarBackdrop.classList.remove('open');
+  }
+  sidebarToggle?.addEventListener('click', openSidebar);
+  sidebarBackdrop.addEventListener('click', closeSidebar);
+
   document.getElementById('logout-btn').addEventListener('click', () => {
     Api.clearSession();
     location.href = 'login.html';
