@@ -6,7 +6,7 @@
 <title>Dashboard — Almubarak Digital Hub</title>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -17,17 +17,17 @@
       <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
       Almubarak
     </a>
-    <button class="nav-item active" data-view="home">Dashboard</button>
-    <button class="nav-item" data-view="airtime">Airtime</button>
-    <button class="nav-item" data-view="data">Data</button>
-    <button class="nav-item" data-view="electricity">Electricity</button>
-    <button class="nav-item" data-view="cable">Cable TV</button>
-    <button class="nav-item" data-view="exam">Exam PINs</button>
-    <button class="nav-item" data-view="transactions">Transactions</button>
-    <button class="nav-item" data-view="fund">Fund wallet</button>
+    <button class="nav-item active" data-view="home"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</button>
+    <button class="nav-item" data-view="airtime"><svg class="icon" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Airtime</button>
+    <button class="nav-item" data-view="data"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12.5a11 11 0 0114 0"/><path d="M8.5 16a6 6 0 017 0"/><line x1="12" y1="19.5" x2="12" y2="19.51"/></svg>Data</button>
+    <button class="nav-item" data-view="electricity"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>Electricity</button>
+    <button class="nav-item" data-view="cable"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Cable TV</button>
+    <button class="nav-item" data-view="exam"><svg class="icon" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>Exam PINs</button>
+    <button class="nav-item" data-view="transactions"><svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="13" y2="18"/></svg>Transactions</button>
+    <button class="nav-item" data-view="fund"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h2"/></svg>Fund wallet</button>
     <div class="sidebar-footer">
-      <a class="nav-item" href="admin.html" id="admin-link" style="display:none;">Admin panel</a>
-      <button class="nav-item" id="logout-btn">Log out</button>
+      <a class="nav-item" href="admin.html" id="admin-link" style="display:none;"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.5 9 10 5.2-1.5 9-5 9-10V6l-9-4z"/></svg>Admin panel</a>
+      <button class="nav-item" id="logout-btn"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log out</button>
     </div>
   </aside>
 
@@ -47,12 +47,12 @@
       <section class="view active" id="view-home">
         <h2>Quick actions</h2>
         <div class="grid-tiles">
-          <button class="tile-btn" data-view="airtime"><div class="tile-icon"></div><div class="tile-title">Airtime</div><div class="tile-sub">All networks</div></button>
-          <button class="tile-btn" data-view="data"><div class="tile-icon"></div><div class="tile-title">Data</div><div class="tile-sub">Daily to monthly</div></button>
-          <button class="tile-btn" data-view="electricity"><div class="tile-icon"></div><div class="tile-title">Electricity</div><div class="tile-sub">Prepaid & postpaid</div></button>
-          <button class="tile-btn" data-view="cable"><div class="tile-icon"></div><div class="tile-title">Cable TV</div><div class="tile-sub">DStv, GOtv, Startimes</div></button>
-          <button class="tile-btn" data-view="exam"><div class="tile-icon"></div><div class="tile-title">Exam PINs</div><div class="tile-sub">WAEC, NECO, JAMB</div></button>
-          <button class="tile-btn" data-view="fund"><div class="tile-icon"></div><div class="tile-title">Fund wallet</div><div class="tile-sub">Card or transfer</div></button>
+          <button class="tile-btn" data-view="airtime"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div><div class="tile-title">Airtime</div><div class="tile-sub">All networks</div></button>
+          <button class="tile-btn" data-view="data"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12.5a11 11 0 0114 0"/><path d="M8.5 16a6 6 0 017 0"/><line x1="12" y1="19.5" x2="12" y2="19.51"/></svg></div><div class="tile-title">Data</div><div class="tile-sub">Daily to monthly</div></button>
+          <button class="tile-btn" data-view="electricity"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div><div class="tile-title">Electricity</div><div class="tile-sub">Prepaid & postpaid</div></button>
+          <button class="tile-btn" data-view="cable"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="tile-title">Cable TV</div><div class="tile-sub">DStv, GOtv, Startimes</div></button>
+          <button class="tile-btn" data-view="exam"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div><div class="tile-title">Exam PINs</div><div class="tile-sub">WAEC, NECO, JAMB</div></button>
+          <button class="tile-btn" data-view="fund"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h2"/></svg></div><div class="tile-title">Fund wallet</div><div class="tile-sub">Card or transfer</div></button>
         </div>
         <h2>Recent transactions</h2>
         <div class="card" style="padding:0; overflow:hidden;">
