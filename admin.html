@@ -10,9 +10,10 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <div class="app-shell">
 
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <a href="index.html" class="brand">
       <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
       Almubarak
@@ -28,6 +29,15 @@
   </aside>
 
   <div class="main-area">
+    <div class="mobile-appbar">
+      <button class="hamburger-btn" id="sidebar-toggle" aria-label="Open menu">
+        <svg class="icon" viewBox="0 0 24 24" style="width:22px;height:22px;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="brand">
+        <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
+        Admin
+      </a>
+    </div>
     <div class="topbar">
       <strong>Admin panel</strong>
     </div>

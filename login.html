@@ -10,12 +10,24 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script>
+  if (Api.isLoggedIn()) { location.href = 'dashboard.html'; }
+</script>
+<div class="auth-topbar">
+  <a href="index.html" class="brand">
+    <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
+    Almubarak Digital Hub
+  </a>
+  <a href="index.html" class="btn btn-ghost btn-sm">
+    <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+    Home
+  </a>
+</div>
 <div class="auth-shell">
-  <div class="auth-visual">
-    <a href="index.html" class="brand">
-      <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
-      Almubarak Digital Hub
-    </a>
+  <div class="auth-visual" style="--auth-bg-image: url('https://images.pexels.com/photos/1144228/pexels-photo-1144228.jpeg?auto=compress&cs=tinysrgb&w=1200');">
+    <div></div>
     <div class="quote">"Welcome back. Your wallet's right where you left it."</div>
     <div></div>
   </div>
@@ -39,8 +51,6 @@
   </div>
 </div>
 
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
 <script>
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();

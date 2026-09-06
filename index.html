@@ -18,10 +18,43 @@
       <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
       Almubarak Digital Hub
     </a>
-    <nav>
-      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
-      <a href="register.html" class="btn btn-primary btn-sm">Create account</a>
+    <nav class="nav-desktop">
+      <div class="nav-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#faq">FAQ</a>
+      </div>
+      <div class="nav-auth" id="nav-auth-guest">
+        <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Create account</a>
+      </div>
+      <div class="user-menu" id="nav-auth-user" style="display:none;">
+        <button class="user-menu-trigger" id="user-menu-trigger">
+          <span class="user-avatar-circle" id="user-avatar-initial">U</span>
+          <svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px;"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="user-menu-dropdown" id="user-menu-dropdown">
+          <a href="dashboard.html"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</a>
+          <button id="header-logout-btn"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log out</button>
+        </div>
+      </div>
     </nav>
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+      <svg class="icon" viewBox="0 0 24 24" style="width:22px;height:22px;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="mobile-menu-panel" id="mobile-menu-panel">
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#faq">FAQ</a>
+      <div id="mobile-auth-guest" class="mobile-menu-ctas">
+        <a href="login.html" class="btn btn-ghost">Log in</a>
+        <a href="register.html" class="btn btn-primary">Create account</a>
+      </div>
+      <div id="mobile-auth-user" style="display:none;">
+        <a href="dashboard.html"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</a>
+        <button id="mobile-logout-btn" style="border-bottom:none;"><svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log out</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -46,7 +79,7 @@
         <svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
         Instant
       </div>
-      <img class="hero-photo" src="https://images.unsplash.com/photo-1758598497476-c4a474397d9e?auto=format&fit=crop&w=900&q=80" alt="Man smiling while checking his phone after topping up instantly" />
+      <img class="hero-photo" src="https://images.pexels.com/photos/5265020/pexels-photo-5265020.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Smiling man happily checking his phone after an instant top-up" />
       <div class="hero-float-card">
         <div class="icon-chip">
           <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h2"/></svg>
@@ -260,6 +293,44 @@
   </div>
 </footer>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Auth-aware header ----
+  const user = Api.currentUser();
+  if (Api.isLoggedIn() && user) {
+    const initial = (user.fullName || 'U').trim().charAt(0).toUpperCase();
+    document.getElementById('nav-auth-guest').style.display = 'none';
+    document.getElementById('nav-auth-user').style.display = 'flex';
+    document.getElementById('user-avatar-initial').textContent = initial;
+    document.getElementById('mobile-auth-guest').style.display = 'none';
+    document.getElementById('mobile-auth-user').style.display = 'block';
+  }
+
+  function doLogout() {
+    Api.clearSession();
+    location.href = 'index.html';
+  }
+  document.getElementById('header-logout-btn').addEventListener('click', doLogout);
+  document.getElementById('mobile-logout-btn').addEventListener('click', doLogout);
+
+  // ---- User dropdown ----
+  const userTrigger = document.getElementById('user-menu-trigger');
+  const userDropdown = document.getElementById('user-menu-dropdown');
+  userTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', () => userDropdown.classList.remove('open'));
+
+  // ---- Mobile hamburger menu ----
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu-panel');
+  hamburgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+</script>
 </body>
 </html>
