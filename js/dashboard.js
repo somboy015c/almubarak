@@ -44,10 +44,19 @@
 
   // ---- Header / wallet ----
   function renderUser() {
-    document.getElementById('greeting').textContent = `Welcome, ${user.fullName?.split(' ')[0] || 'there'}`;
-    document.getElementById('wallet-amount').textContent = formatNaira(user.walletBalance);
+    const firstName = user.fullName?.split(' ')[0] || 'there';
+    const initial = (user.fullName || 'U').trim().charAt(0).toUpperCase();
+
     document.getElementById('wallet-amount-mobile').textContent = formatNaira(user.walletBalance);
     document.getElementById('admin-link').style.display = user.isAdmin ? 'flex' : 'none';
+
+    document.getElementById('sidebar-avatar').textContent = initial;
+    document.getElementById('sidebar-username').textContent = user.fullName || 'there';
+    document.getElementById('sidebar-balance').textContent = formatNaira(user.walletBalance);
+
+    document.getElementById('topbar-avatar').textContent = initial;
+    document.getElementById('topbar-username').textContent = user.fullName || 'there';
+    document.getElementById('topbar-balance').textContent = formatNaira(user.walletBalance);
   }
 
   async function refreshUser() {

@@ -3,11 +3,32 @@
     location.href = 'login.html';
     return;
   }
-  const user = Api.currentUser();
+  let user = Api.currentUser();
   if (!user?.isAdmin) {
     toast('This page is for admins only.', 'error');
     setTimeout(() => (location.href = 'dashboard.html'), 1200);
     return;
+  }
+
+  function renderUser() {
+    const initial = (user.fullName || 'U').trim().charAt(0).toUpperCase();
+    document.getElementById('sidebar-avatar').textContent = initial;
+    document.getElementById('sidebar-username').textContent = user.fullName || 'there';
+    document.getElementById('sidebar-balance').textContent = formatNaira(user.walletBalance);
+    document.getElementById('topbar-avatar').textContent = initial;
+    document.getElementById('topbar-username').textContent = user.fullName || 'there';
+    document.getElementById('topbar-balance').textContent = formatNaira(user.walletBalance);
+  }
+
+  async function refreshUser() {
+    try {
+      const data = await Api.get('/auth/me');
+      user = data.user;
+      Api.setSession(localStorage.getItem('almubarak_token'), user);
+      renderUser();
+    } catch (err) {
+      /* handled by Api (redirects on 401) */
+    }
   }
 
   function showView(name) {
@@ -143,6 +164,8 @@
     }
   });
 
+  renderUser();
+  refreshUser();
   loadOverview();
   loadUsers();
   loadTransactions();
