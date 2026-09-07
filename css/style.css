@@ -185,9 +185,12 @@ img, svg { display: block; max-width: 100%; }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; position: relative; }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; flex-shrink: 0; }
 .brand-mark { width: 34px; height: 34px; border-radius: 9px; object-fit: cover; flex-shrink: 0; }
+.brand-mark-full { display: none; height: 34px; width: auto; border-radius: 6px; object-fit: contain; flex-shrink: 0; }
 
 @media (max-width: 640px) {
   .brand-text { display: none; }
+  .brand-mark { display: none; }
+  .brand-mark-full { display: block; }
 }
 
 .nav-desktop { display: flex; align-items: center; gap: 28px; }
@@ -387,6 +390,17 @@ img, svg { display: block; max-width: 100%; }
   border-right: 1px solid var(--line);
 }
 .sidebar .brand { color: var(--ink); padding: 0 8px; margin-bottom: 20px; }
+
+.sidebar-profile {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 10px; margin-bottom: 14px;
+  border-radius: var(--radius-md);
+  background: var(--brand-tint);
+}
+.sidebar-profile .user-avatar-circle { width: 42px; height: 42px; font-size: 1.05rem; }
+.sidebar-profile-text { min-width: 0; }
+.sidebar-profile-name { font-weight: 700; color: var(--ink); font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-profile-balance { font-family: var(--font-display); font-weight: 700; color: var(--brand); font-size: 0.85rem; margin-top: 2px; }
 .nav-item {
   display: flex; align-items: center; gap: 10px;
   padding: 11px 12px; border-radius: var(--radius-sm);
@@ -408,6 +422,12 @@ img, svg { display: block; max-width: 100%; }
   padding: 8px 16px; display: flex; align-items: center; gap: 10px; font-weight: 700; font-family: var(--font-display); color: var(--ink);
 }
 .wallet-pill .label { font-family: var(--font-body); font-weight: 500; font-size: 0.75rem; color: var(--text-muted); }
+
+.topbar-profile { display: flex; align-items: center; gap: 12px; }
+.topbar-profile .user-avatar-circle { width: 40px; height: 40px; font-size: 1rem; }
+.topbar-profile-text { text-align: right; }
+.topbar-profile-name { font-weight: 700; color: var(--ink); font-size: 0.88rem; }
+.topbar-profile-balance { font-family: var(--font-display); font-weight: 700; color: var(--brand); font-size: 0.95rem; margin-top: 2px; }
 
 .view-body { padding: 28px 32px; max-width: 980px; }
 .view { display: none; }
