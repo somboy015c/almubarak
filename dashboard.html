@@ -16,7 +16,6 @@
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="brand">
       <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
-      <img class="brand-mark-full" src="assets/logo.jpg" alt="Almubarak Digital Hub" />
       <span class="brand-text">Almubarak</span>
     </a>
     <div class="sidebar-profile">
@@ -47,7 +46,6 @@
       </button>
       <a href="index.html" class="brand">
         <img class="brand-mark" src="assets/icon.png" alt="Almubarak Digital Hub logo" />
-      <img class="brand-mark-full" src="assets/logo.jpg" alt="Almubarak Digital Hub" />
         <span class="brand-text">Almubarak</span>
       </a>
       <div class="wallet-pill">
@@ -71,6 +69,21 @@
 
       <!-- HOME -->
       <section class="view active" id="view-home">
+        <div class="mobile-profile-banner">
+          <div class="mobile-profile-top">
+            <div class="user-avatar-circle" id="mobile-profile-avatar">U</div>
+            <div>
+              <div class="mobile-profile-name" id="mobile-profile-name">Loading...</div>
+              <div class="mobile-profile-sub">Almubarak Wallet</div>
+            </div>
+          </div>
+          <div class="mobile-profile-balance-label">Available balance</div>
+          <div class="mobile-profile-balance" id="mobile-profile-balance">₦0.00</div>
+          <button class="btn btn-accent btn-sm" id="mobile-fund-btn">
+            <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h2"/></svg>
+            Fund wallet
+          </button>
+        </div>
         <h2>Quick actions</h2>
         <div class="grid-tiles">
           <button class="tile-btn" data-view="airtime"><div class="tile-icon icon-chip"><svg class="icon" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div><div class="tile-title">Airtime</div><div class="tile-sub">All networks</div></button>
