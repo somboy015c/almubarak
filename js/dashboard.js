@@ -57,7 +57,13 @@
     document.getElementById('topbar-avatar').textContent = initial;
     document.getElementById('topbar-username').textContent = user.fullName || 'there';
     document.getElementById('topbar-balance').textContent = formatNaira(user.walletBalance);
+
+    document.getElementById('mobile-profile-avatar').textContent = initial;
+    document.getElementById('mobile-profile-name').textContent = user.fullName || 'there';
+    document.getElementById('mobile-profile-balance').textContent = formatNaira(user.walletBalance);
   }
+
+  document.getElementById('mobile-fund-btn').addEventListener('click', () => showView('fund'));
 
   async function refreshUser() {
     try {
