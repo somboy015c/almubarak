@@ -37,10 +37,15 @@
     document.querySelectorAll('.nav-item[data-view]').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.view === name);
     });
+    if (name === 'withdrawals') loadWithdrawals();
+    if (name === 'airtime2cash') loadAirtimeToCash();
     closeSidebar();
   }
   document.querySelectorAll('[data-view]').forEach((el) => {
-    el.addEventListener('click', () => showView(el.dataset.view));
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(el.dataset.view);
+    });
   });
 
   // ---- Mobile off-canvas drawer ----
@@ -143,6 +148,8 @@
       document.getElementById('markup-electricity').value = pricing.electricity.markupPercent;
       document.getElementById('markup-cable').value = pricing.cable.markupPercent;
       document.getElementById('exam-fee').value = pricing.exam.flatFee;
+      document.getElementById('a2c-rate').value = pricing.airtimeToCash.ratePercent;
+      document.getElementById('min-withdrawal').value = pricing.withdrawal.minAmount;
     } catch (err) {
       toast(err.message, 'error');
     }
@@ -156,7 +163,9 @@
         electricity: { markupPercent: Number(document.getElementById('markup-electricity').value) },
         cable: { markupPercent: Number(document.getElementById('markup-cable').value) },
         exam: { flatFee: Number(document.getElementById('exam-fee').value) },
-        airtime: { markupPercent: 0 }
+        airtime: { markupPercent: 0 },
+        airtimeToCash: { ratePercent: Number(document.getElementById('a2c-rate').value) },
+        withdrawal: { minAmount: Number(document.getElementById('min-withdrawal').value) }
       };
       await Api.put('/admin/pricing', payload);
       toast('Pricing updated.');
@@ -164,6 +173,113 @@
       toast(err.message, 'error');
     }
   });
+
+  // ---- Withdrawals ----
+  async function loadWithdrawals() {
+    try {
+      const { withdrawals } = await Api.get('/admin/withdrawals');
+      document.getElementById('withdrawals-empty').style.display = withdrawals.length ? 'none' : 'block';
+      document.getElementById('withdrawals-body').innerHTML = withdrawals
+        .map((w) => {
+          const badgeClass = w.status === 'success' ? 'badge-success' : w.status === 'failed' ? 'badge-danger' : 'badge-neutral';
+          const actions =
+            w.status === 'pending'
+              ? `<button class="btn btn-accent btn-sm approve-wd-btn" data-id="${w.id}">Mark paid</button>
+                 <button class="btn btn-danger btn-sm reject-wd-btn" data-id="${w.id}">Reject</button>`
+              : (w.adminNote || '—');
+          return `<tr>
+            <td>${w.userId.slice(0, 8)}...</td>
+            <td>${formatNaira(w.amount)}</td>
+            <td>${w.bankName} — ${w.accountNumber}<br><span style="color:var(--text-muted);font-size:0.8rem;">${w.accountName}</span></td>
+            <td><span class="badge ${badgeClass}">${w.status}</span></td>
+            <td>${new Date(w.createdAt).toLocaleString('en-NG')}</td>
+            <td>${actions}</td>
+          </tr>`;
+        })
+        .join('');
+
+      document.querySelectorAll('.approve-wd-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Confirm you have sent this payout to the user\'s bank account?')) return;
+          try {
+            await Api.post(`/admin/withdrawals/${btn.dataset.id}/approve`, {});
+            toast('Marked as paid.');
+            loadWithdrawals();
+          } catch (err) {
+            toast(err.message, 'error');
+          }
+        });
+      });
+      document.querySelectorAll('.reject-wd-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const note = prompt('Reason for rejecting (the wallet will be refunded):') || undefined;
+          try {
+            await Api.post(`/admin/withdrawals/${btn.dataset.id}/reject`, { note });
+            toast('Withdrawal rejected and refunded.');
+            loadWithdrawals();
+          } catch (err) {
+            toast(err.message, 'error');
+          }
+        });
+      });
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+
+  // ---- Airtime to Cash ----
+  async function loadAirtimeToCash() {
+    try {
+      const { requests } = await Api.get('/admin/airtime-to-cash');
+      document.getElementById('a2c-empty').style.display = requests.length ? 'none' : 'block';
+      document.getElementById('a2c-body').innerHTML = requests
+        .map((r) => {
+          const badgeClass = r.status === 'success' ? 'badge-success' : r.status === 'failed' ? 'badge-danger' : 'badge-neutral';
+          const actions =
+            r.status === 'pending'
+              ? `<button class="btn btn-accent btn-sm approve-a2c-btn" data-id="${r.id}">Verify & credit</button>
+                 <button class="btn btn-danger btn-sm reject-a2c-btn" data-id="${r.id}">Reject</button>`
+              : (r.adminNote || '—');
+          return `<tr>
+            <td>${r.userId.slice(0, 8)}...</td>
+            <td style="text-transform:uppercase">${r.network}</td>
+            <td>${formatNaira(r.amountSent)}</td>
+            <td>${formatNaira(r.cashValue)}</td>
+            <td>${r.phoneUsed}</td>
+            <td><span class="badge ${badgeClass}">${r.status}</span></td>
+            <td>${actions}</td>
+          </tr>`;
+        })
+        .join('');
+
+      document.querySelectorAll('.approve-a2c-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Confirm you received this airtime before crediting the wallet?')) return;
+          try {
+            await Api.post(`/admin/airtime-to-cash/${btn.dataset.id}/approve`, {});
+            toast('Verified and credited.');
+            loadAirtimeToCash();
+          } catch (err) {
+            toast(err.message, 'error');
+          }
+        });
+      });
+      document.querySelectorAll('.reject-a2c-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const note = prompt('Reason for rejecting:') || undefined;
+          try {
+            await Api.post(`/admin/airtime-to-cash/${btn.dataset.id}/reject`, { note });
+            toast('Request rejected.');
+            loadAirtimeToCash();
+          } catch (err) {
+            toast(err.message, 'error');
+          }
+        });
+      });
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
 
   renderUser();
   refreshUser();

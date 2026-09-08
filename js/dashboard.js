@@ -14,11 +14,16 @@
       btn.classList.toggle('active', btn.dataset.view === name);
     });
     if (name === 'transactions') loadFullTransactions();
+    if (name === 'settings') loadSecurityStatus();
+    if (name === 'withdraw') loadWithdrawInfo();
     closeSidebar();
   }
 
   document.querySelectorAll('[data-view]').forEach((el) => {
-    el.addEventListener('click', () => showView(el.dataset.view));
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(el.dataset.view);
+    });
   });
 
   // ---- Mobile off-canvas drawer ----
@@ -326,10 +331,156 @@
     }
   }
 
+  // ---- Live limits (min withdrawal, airtime2cash rate) ----
+  async function loadLimits() {
+    try {
+      const { airtimeToCashRatePercent, minWithdrawal } = await Api.get('/services/limits');
+      document.getElementById('a2c-rate-hint').textContent =
+        `You'll receive ${airtimeToCashRatePercent}% of face value, subject to verification.`;
+      document.getElementById('withdraw-min-hint').textContent =
+        `Minimum withdrawal is ${formatNaira(minWithdrawal)}.`;
+    } catch (err) {
+      /* non-critical — hints stay generic if this fails */
+    }
+  }
+
+  // ---- Transfer ----
+  document.getElementById('transfer-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    try {
+      const recipient = document.getElementById('transfer-recipient').value.trim();
+      const amount = document.getElementById('transfer-amount').value;
+      const pin = document.getElementById('transfer-pin').value;
+      const data = await Api.post('/transfer', { recipient, amount, pin });
+      user = data.user;
+      renderUser();
+      toast(data.message || 'Transfer successful.');
+      e.target.reset();
+      loadHomeTransactions();
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---- Withdraw ----
+  async function loadWithdrawInfo() {
+    try {
+      const { hasBankAccount } = await Api.get('/security/status');
+      document.getElementById('withdraw-no-bank').style.display = hasBankAccount ? 'none' : 'block';
+      document.getElementById('withdraw-bank-summary').style.display = hasBankAccount ? 'block' : 'none';
+      document.getElementById('withdraw-form').style.display = hasBankAccount ? 'block' : 'none';
+      if (hasBankAccount && user.bankAccount) {
+        document.getElementById('withdraw-bank-details').textContent =
+          `${user.bankAccount.bankName} — ${user.bankAccount.accountNumber} (${user.bankAccount.accountName})`;
+      }
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+
+  document.getElementById('withdraw-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    try {
+      const amount = document.getElementById('withdraw-amount').value;
+      const pin = document.getElementById('withdraw-pin').value;
+      const data = await Api.post('/withdrawal', { amount, pin });
+      user = data.user;
+      renderUser();
+      toast(data.message || 'Withdrawal requested.');
+      e.target.reset();
+      loadHomeTransactions();
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---- Airtime to Cash ----
+  document.getElementById('airtime2cash-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    try {
+      const network = document.getElementById('a2c-network').value;
+      const amountSent = document.getElementById('a2c-amount').value;
+      const phoneUsed = document.getElementById('a2c-phone').value.trim();
+      const pin = document.getElementById('a2c-pin').value;
+      const data = await Api.post('/airtime-to-cash', { network, amountSent, phoneUsed, pin });
+      toast(data.message || 'Request submitted.');
+      e.target.reset();
+      loadHomeTransactions();
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---- Settings: PIN ----
+  async function loadSecurityStatus() {
+    try {
+      const { hasPin } = await Api.get('/security/status');
+      document.getElementById('pin-current-field').style.display = hasPin ? 'block' : 'none';
+      document.getElementById('pin-current').required = hasPin;
+      document.getElementById('pin-submit-btn').textContent = hasPin ? 'Change PIN' : 'Set PIN';
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+
+  document.getElementById('pin-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    try {
+      const currentPin = document.getElementById('pin-current').value || undefined;
+      const newPin = document.getElementById('pin-new').value;
+      const password = document.getElementById('pin-password').value;
+      const data = await Api.post('/security/pin', { currentPin, newPin, password });
+      user = data.user;
+      toast(data.message || 'PIN saved.');
+      e.target.reset();
+      loadSecurityStatus();
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---- Settings: bank account ----
+  document.getElementById('bank-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.disabled = true;
+    try {
+      const bankName = document.getElementById('bank-name').value.trim();
+      const accountNumber = document.getElementById('bank-account-number').value.trim();
+      const accountName = document.getElementById('bank-account-name').value.trim();
+      const pin = document.getElementById('bank-pin').value;
+      const data = await Api.put('/security/bank-account', { bankName, accountNumber, accountName, pin });
+      user = data.user;
+      toast(data.message || 'Bank account saved.');
+      document.getElementById('bank-pin').value = '';
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
   // ---- Init ----
   renderUser();
   refreshUser();
   loadHomeTransactions();
   loadExamPlans();
+  loadLimits();
   checkPendingFunding();
 })();
