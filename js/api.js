@@ -1,43 +1,77 @@
+// ---- Global loading overlay ----
+// A counter (not a boolean) so overlapping requests don't hide the
+// spinner early — it only disappears once every in-flight call is done.
+let _loaderCount = 0;
+
+function _loaderEl() {
+  let el = document.getElementById('global-loader');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'global-loader';
+    el.className = 'global-loader';
+    el.innerHTML = '<div class="spinner"></div>';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+function showLoader() {
+  _loaderCount++;
+  _loaderEl().classList.add('active');
+}
+
+function hideLoader() {
+  _loaderCount = Math.max(0, _loaderCount - 1);
+  if (_loaderCount === 0) {
+    _loaderEl().classList.remove('active');
+  }
+}
+
 const Api = (() => {
   function token() {
     return localStorage.getItem('almubarak_token');
   }
 
   async function request(path, { method = 'GET', body } = {}) {
-    const headers = { 'Content-Type': 'application/json' };
-    const t = token();
-    if (t) headers.Authorization = `Bearer ${t}`;
-
-    let res;
+    showLoader();
     try {
-      res = await fetch(`${window.API_BASE_URL}${path}`, {
-        method,
-        headers,
-        body: body ? JSON.stringify(body) : undefined
-      });
-    } catch (err) {
-      throw new Error('Could not reach the server. Check your connection and try again.');
-    }
+      const headers = { 'Content-Type': 'application/json' };
+      const t = token();
+      if (t) headers.Authorization = `Bearer ${t}`;
 
-    let data = {};
-    try {
-      data = await res.json();
-    } catch (err) {
-      /* no JSON body */
-    }
-
-    if (!res.ok) {
-      if (res.status === 401) {
-        localStorage.removeItem('almubarak_token');
-        localStorage.removeItem('almubarak_user');
-        if (!location.pathname.endsWith('login.html') && !location.pathname.endsWith('/')) {
-          location.href = 'login.html';
-        }
+      let res;
+      try {
+        res = await fetch(`${window.API_BASE_URL}${path}`, {
+          method,
+          headers,
+          body: body ? JSON.stringify(body) : undefined
+        });
+      } catch (err) {
+        throw new Error('Could not reach the server. Check your connection and try again.');
       }
-      throw new Error(data.error || 'Something went wrong. Please try again.');
-    }
 
-    return data;
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (err) {
+        /* no JSON body */
+      }
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('almubarak_token');
+          localStorage.removeItem('almubarak_user');
+          if (!location.pathname.endsWith('login.html') && !location.pathname.endsWith('/')) {
+            location.href = 'login.html';
+          }
+        }
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
+
+      return data;
+    } finally {
+      hideLoader();
+    }
   }
 
   return {

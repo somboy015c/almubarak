@@ -60,6 +60,7 @@
   sidebarBackdrop.addEventListener('click', closeSidebar);
 
   document.getElementById('logout-btn').addEventListener('click', () => {
+    showLoader();
     Api.clearSession();
     location.href = 'login.html';
   });
