@@ -308,6 +308,7 @@
   }
 
   function doLogout() {
+    showLoader();
     Api.clearSession();
     location.href = 'index.html';
   }
