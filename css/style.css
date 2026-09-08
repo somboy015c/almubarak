@@ -186,11 +186,13 @@ img, svg { display: block; max-width: 100%; }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; flex-shrink: 0; }
 .brand-mark { width: 34px; height: 34px; border-radius: 9px; object-fit: cover; flex-shrink: 0; }
 .brand-mark-full { display: none; height: 34px; width: auto; border-radius: 6px; object-fit: contain; flex-shrink: 0; }
+.header-logo { height: 38px; width: auto; object-fit: contain; display: block; }
 
 @media (max-width: 640px) {
   .brand-text { display: none; }
   .brand-mark { display: none; }
   .brand-mark-full { display: block; }
+  .header-logo { height: 30px; }
 }
 
 .nav-desktop { display: flex; align-items: center; gap: 28px; }
@@ -364,6 +366,7 @@ img, svg { display: block; max-width: 100%; }
 }
 .auth-visual .quote { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; max-width: 22ch; }
 .auth-visual .brand-mark { background: #fff; padding: 3px; }
+.auth-visual .header-logo { background: #fff; padding: 8px 14px; border-radius: var(--radius-sm); height: 34px; }
 .auth-form-side { display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--paper-raised); }
 .auth-box { width: 100%; max-width: 400px; }
 .auth-box .switch-link { text-align: center; margin-top: 16px; font-size: 0.9rem; color: var(--text-muted); }
@@ -624,4 +627,27 @@ table.tx-table tr:last-child td { border-bottom: none; }
 @media (max-width: 640px) {
   .whatsapp-float-btn { bottom: 18px; right: 18px; width: 50px; height: 50px; }
   .whatsapp-float-btn svg { width: 24px; height: 24px; }
+}
+
+/* ============================================================
+   Mobile profile banner (dashboard home view)
+   ============================================================ */
+.mobile-profile-banner { display: none; }
+
+@media (max-width: 900px) {
+  .mobile-profile-banner {
+    display: block;
+    background: linear-gradient(135deg, var(--brand-deep), var(--brand));
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 22px 20px;
+    margin-bottom: 24px;
+  }
+  .mobile-profile-top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .mobile-profile-top .user-avatar-circle { background: rgba(255,255,255,0.2); color: #fff; width: 44px; height: 44px; font-size: 1.1rem; }
+  .mobile-profile-name { font-weight: 700; font-size: 1.05rem; }
+  .mobile-profile-sub { font-size: 0.78rem; opacity: 0.75; margin-top: 2px; }
+  .mobile-profile-balance-label { font-size: 0.75rem; opacity: 0.8; margin-bottom: 4px; }
+  .mobile-profile-balance { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; margin-bottom: 18px; }
+  .mobile-profile-banner .btn-accent { background: #fff; color: var(--ink); }
 }
