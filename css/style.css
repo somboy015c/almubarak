@@ -195,6 +195,13 @@ img, svg { display: block; max-width: 100%; }
   .header-logo { height: 30px; }
 }
 
+/* Dashboard/admin always show the icon-only mark, never the full wordmark
+   logo — this overrides the generic mobile swap above via specificity. */
+.sidebar .brand-mark,
+.mobile-appbar .brand-mark {
+  display: block !important;
+}
+
 .nav-desktop { display: flex; align-items: center; gap: 28px; }
 .nav-links { display: flex; align-items: center; gap: 26px; }
 .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.92rem; }
@@ -479,8 +486,8 @@ table.tx-table tr:last-child td { border-bottom: none; }
   .mobile-appbar .brand-mark { width: 28px; height: 28px; }
 
   .sidebar {
-    position: fixed; top: 0; left: 0; height: 100%; width: 84%; max-width: 300px;
-    transform: translateX(-100%);
+    position: fixed; top: 0; right: 0; left: auto; height: 100%; width: 84%; max-width: 300px;
+    transform: translateX(100%);
     transition: transform 0.25s ease;
     z-index: 100;
     box-shadow: var(--shadow);
