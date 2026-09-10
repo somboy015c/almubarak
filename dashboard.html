@@ -325,6 +325,14 @@
         <p style="margin-bottom:16px;">Send airtime to our recharge number, then submit the details below. Your wallet is credited once verified.</p>
         <form class="card form-card" id="airtime2cash-form">
           <div class="field">
+            <label for="a2c-method">Verification method</label>
+            <select id="a2c-method">
+              <option value="manual">Manual review (admin checks and credits you)</option>
+              <option value="automatic">Automatic (instant, where available)</option>
+            </select>
+            <p class="field-hint" id="a2c-method-hint"></p>
+          </div>
+          <div class="field">
             <label for="a2c-network">Network</label>
             <select id="a2c-network" required>
               <option value="">Select network</option>
@@ -376,12 +384,15 @@
         <h3>Withdrawal Bank Account</h3>
         <form class="card form-card" id="bank-form">
           <div class="field">
-            <label for="bank-name">Bank name</label>
-            <input id="bank-name" type="text" required placeholder="e.g. GTBank" />
+            <label for="bank-select">Bank</label>
+            <select id="bank-select" required><option value="">Loading banks...</option></select>
           </div>
           <div class="field">
             <label for="bank-account-number">Account number</label>
-            <input id="bank-account-number" type="text" required placeholder="10-digit account number" />
+            <input id="bank-account-number" type="text" required placeholder="10-digit account number" maxlength="10" />
+            <p class="field-hint">
+              <a href="#" id="resolve-account-btn">Verify account name</a>
+            </p>
           </div>
           <div class="field">
             <label for="bank-account-name">Account name</label>
