@@ -188,7 +188,7 @@
                  <button class="btn btn-danger btn-sm reject-wd-btn" data-id="${w.id}">Reject</button>`
               : (w.adminNote || '—');
           return `<tr>
-            <td>${w.userId.slice(0, 8)}...</td>
+            <td>${w.userName}<br><span style="color:var(--text-muted);font-size:0.8rem;">${w.userEmail}</span></td>
             <td>${formatNaira(w.amount)}</td>
             <td>${w.bankName} — ${w.accountNumber}<br><span style="color:var(--text-muted);font-size:0.8rem;">${w.accountName}</span></td>
             <td><span class="badge ${badgeClass}">${w.status}</span></td>
@@ -241,11 +241,12 @@
                  <button class="btn btn-danger btn-sm reject-a2c-btn" data-id="${r.id}">Reject</button>`
               : (r.adminNote || '—');
           return `<tr>
-            <td>${r.userId.slice(0, 8)}...</td>
+            <td>${r.userName}<br><span style="color:var(--text-muted);font-size:0.8rem;">${r.userEmail}</span></td>
             <td style="text-transform:uppercase">${r.network}</td>
             <td>${formatNaira(r.amountSent)}</td>
             <td>${formatNaira(r.cashValue)}</td>
             <td>${r.phoneUsed}</td>
+            <td style="text-transform:capitalize">${r.method}</td>
             <td><span class="badge ${badgeClass}">${r.status}</span></td>
             <td>${actions}</td>
           </tr>`;

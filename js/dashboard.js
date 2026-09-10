@@ -14,7 +14,7 @@
       btn.classList.toggle('active', btn.dataset.view === name);
     });
     if (name === 'transactions') loadFullTransactions();
-    if (name === 'settings') loadSecurityStatus();
+    if (name === 'settings') { loadSecurityStatus(); loadBanks(); }
     if (name === 'withdraw') loadWithdrawInfo();
     closeSidebar();
   }
@@ -82,11 +82,28 @@
   }
 
   // ---- Transactions ----
+  const TX_TYPE_LABELS = {
+    airtime: 'Airtime',
+    data: 'Data',
+    electricity: 'Electricity',
+    cable: 'Cable TV',
+    exam: 'Exam PIN',
+    'wallet-funding': 'Wallet Funding',
+    'transfer-out': 'Transfer Sent',
+    'transfer-in': 'Transfer Received',
+    withdrawal: 'Withdrawal',
+    airtime2cash: 'Airtime to Cash',
+    'admin-adjustment': 'Admin Adjustment'
+  };
+  function txTypeLabel(type) {
+    return TX_TYPE_LABELS[type] || type;
+  }
+
   function txRow(tx, withType) {
     const badgeClass = tx.status === 'success' ? 'badge-success' : tx.status === 'failed' ? 'badge-danger' : 'badge-neutral';
     return `<tr>
       <td>${tx.description}</td>
-      ${withType ? `<td style="text-transform:capitalize">${tx.type}</td>` : ''}
+      ${withType ? `<td>${txTypeLabel(tx.type)}</td>` : ''}
       <td>${formatNaira(tx.amount)}</td>
       <td><span class="badge ${badgeClass}">${tx.status}</span></td>
       <td>${new Date(tx.createdAt).toLocaleString('en-NG')}</td>
@@ -344,6 +361,51 @@
     }
   }
 
+  // ---- Bank list & account resolution (for Settings > bank account) ----
+  const bankSelect = document.getElementById('bank-select');
+  let banksLoaded = false;
+
+  async function loadBanks() {
+    if (banksLoaded) return;
+    try {
+      const { banks } = await Api.get('/security/banks');
+      bankSelect.innerHTML = banks
+        .map((b) => `<option value="${b.code}">${b.name}</option>`)
+        .join('');
+      banksLoaded = true;
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
+
+  document.getElementById('resolve-account-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const accountNumber = document.getElementById('bank-account-number').value.trim();
+    const bankCode = bankSelect.value;
+    if (!accountNumber || !bankCode) {
+      return toast('Select a bank and enter the account number first.', 'error');
+    }
+    try {
+      const { accountName } = await Api.post('/security/resolve-account', { accountNumber, bankCode });
+      document.getElementById('bank-account-name').value = accountName;
+      toast('Account name verified.');
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  });
+
+  // ---- Airtime to cash: method hint ----
+  const a2cMethodSelect = document.getElementById('a2c-method');
+  function updateA2cMethodHint() {
+    const hint = document.getElementById('a2c-method-hint');
+    hint.textContent =
+      a2cMethodSelect.value === 'automatic'
+        ? 'Verified instantly where a provider is configured — otherwise queued for manual review.'
+        : 'An admin verifies your airtime was received before crediting your wallet.';
+  }
+  a2cMethodSelect.addEventListener('change', updateA2cMethodHint);
+  updateA2cMethodHint();
+
   // ---- Transfer ----
   document.getElementById('transfer-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -408,13 +470,15 @@
     const btn = e.target.querySelector('button');
     btn.disabled = true;
     try {
+      const method = document.getElementById('a2c-method').value;
       const network = document.getElementById('a2c-network').value;
       const amountSent = document.getElementById('a2c-amount').value;
       const phoneUsed = document.getElementById('a2c-phone').value.trim();
       const pin = document.getElementById('a2c-pin').value;
-      const data = await Api.post('/airtime-to-cash', { network, amountSent, phoneUsed, pin });
+      const data = await Api.post('/airtime-to-cash', { network, amountSent, phoneUsed, pin, method });
       toast(data.message || 'Request submitted.');
       e.target.reset();
+      updateA2cMethodHint();
       loadHomeTransactions();
     } catch (err) {
       toast(err.message, 'error');
@@ -461,11 +525,13 @@
     const btn = e.target.querySelector('button');
     btn.disabled = true;
     try {
-      const bankName = document.getElementById('bank-name').value.trim();
+      const bankCode = bankSelect.value;
+      const bankName = bankSelect.selectedOptions[0]?.textContent || '';
       const accountNumber = document.getElementById('bank-account-number').value.trim();
       const accountName = document.getElementById('bank-account-name').value.trim();
       const pin = document.getElementById('bank-pin').value;
-      const data = await Api.put('/security/bank-account', { bankName, accountNumber, accountName, pin });
+      if (!bankCode) throw new Error('Please select a bank.');
+      const data = await Api.put('/security/bank-account', { bankName, bankCode, accountNumber, accountName, pin });
       user = data.user;
       toast(data.message || 'Bank account saved.');
       document.getElementById('bank-pin').value = '';
