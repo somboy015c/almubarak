@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css?v=20261027" />
 </head>
 <body>
 
@@ -76,6 +76,7 @@
         <a href="register.html" class="btn btn-accent">Create free account</a>
         <a href="login.html" class="btn btn-ghost">I already have an account</a>
       </div>
+      <a class="play-badge play-badge-hero" data-app-link href="https://github.com/somboy015c/elmubarak-app/releases/download/latest-build/Elmubarak-DH.apk" target="_blank" rel="noopener" aria-label="Get it on Google Play"><img src="assets/google-play-badge.png" alt="Get it on Google Play" width="646" height="250" loading="lazy" /></a>
       <div class="trust-row">
         <div class="trust-item"><span class="check"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Instant delivery</div>
         <div class="trust-item"><span class="check"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Secure wallet system</div>
@@ -240,6 +241,20 @@
   </div>
 </section>
 
+<!-- GET THE APP -->
+<section class="section section-tint" id="get-the-app">
+  <div class="container">
+    <div class="app-band">
+      <div class="app-band-text">
+        <span class="eyebrow">Mobile app</span>
+        <h2>Take Elmubarak with you</h2>
+        <p>Buy airtime, data, electricity and cable TV from your phone. Download the Elmubarak Digital Hub app and your wallet is always one tap away.</p>
+        <a class="play-badge play-badge-lg" data-app-link href="https://github.com/somboy015c/elmubarak-app/releases/download/latest-build/Elmubarak-DH.apk" target="_blank" rel="noopener" aria-label="Get it on Google Play"><img src="assets/google-play-badge.png" alt="Get it on Google Play" width="646" height="250" loading="lazy" /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="section">
   <div class="container">
@@ -308,8 +323,14 @@
   </div>
 </footer>
 
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
+<script src="js/config.js?v=20261027"></script>
+<script src="js/api.js?v=20261027"></script>
+<script>
+  // Point every "Get it on Google Play" badge at the link set in js/config.js
+  if (window.APP_DOWNLOAD_URL) {
+    document.querySelectorAll('[data-app-link]').forEach((a) => (a.href = window.APP_DOWNLOAD_URL));
+  }
+</script>
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
